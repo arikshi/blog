@@ -1,0 +1,150 @@
+						</div>
+						
+						<div class="col-lg-12" id="comment_list">
+						</div>
+						
+						<div class="col-lg-12">
+							<textarea class="form-control" id="comment" placeholder="发表看法" rows="3"></textarea>							
+							<br>
+							<div class="input-group input-group-lg">							  
+								<span class="input-group-addon glyphicon glyphicon-asterisk">您的大名</span>							    
+								<input type="text" class="form-control" id="username">							  
+								<span class="input-group-addon glyphicon glyphicon-envelope">邮箱地址</span>							    
+								<input type="text" class="form-control" id="email">							
+							</div>							  
+							<br>							
+							<div class="input-group input-group-lg col-lg-12">							  
+								<button type="button" class="btn btn-primary btn-lg btn-block" onclick="comment();">提交</button>							
+							</div>
+						</div>
+					</div>
+					<hr>
+				</div>
+			</div>
+		</div>
+		
+		<script id="tpl" type="text/html">
+			{{each cs}}
+			<div class="panel panel-success">
+			  <div class="panel-heading">
+				<h3 class="panel-title">{{$value.u}} 说：</h3>
+			  </div>
+			  <div class="panel-body">
+				{{$value.c}}
+			  </div>
+			</div>
+			{{/each}}
+		</script>
+	
+		<input type="hidden" id="bid" value="#bid#">	
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../js/template-web.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function () {
+			var trigger = $('.hamburger'),
+			overlay = $('.overlay'),
+			isClosed = false;
+
+			trigger.click(function () {
+				hamburger_cross();      
+			});
+
+			function hamburger_cross() {
+
+				if (isClosed == true) {          
+					overlay.hide();
+					trigger.removeClass('is-open');
+					trigger.addClass('is-closed');
+					isClosed = false;
+				} 
+				else {   
+				/*
+					overlay.show();
+					trigger.removeClass('is-closed');
+					trigger.addClass('is-open');
+					isClosed = true;
+					*/
+				}
+			}
+
+			$('[data-toggle="offcanvas"]').click(function () {
+				$('#wrapper').toggleClass('toggled');
+			});
+			
+			getComment();
+		});
+		
+		function comment()
+		{
+			if ($("#comment").val().length < 1)
+			{
+				alert("请输入留言");
+				return;
+			}
+
+			if ($("#username").val().length < 1)
+			{
+				//focus
+				alert("请输入您的大名");
+				return;
+			}
+			
+			var url="/blog.cgi?otype=json&callback=?";
+
+            var postData = {
+				bid : $("#bid").val(),
+                user : $("#username").val(),
+                email : $("#email").val(),
+                comment : $("#comment").val(),
+				ot : 1
+            };
+
+            $.ajax({
+                type: "post",
+                url: url,
+                data: postData,
+                dataType: "json",
+                contentType:"application/x-www-form-urlencoded",
+                success : function(result){
+                    if (typeof(result)!=undefined && 0 == result.code) {
+                        alert("发表成功.");
+						getComment();
+                    }
+                    else{
+                        alert("发表失败.");
+                    }
+                }
+            });
+		}
+		
+		function getComment()
+		{
+			var url="/blog.cgi?otype=json&callback=?";
+
+            var postData = {
+				bid : $("#bid").val(),
+				ot : 2
+            };
+
+            $.ajax({
+                type: "post",
+                url: url,
+                data: postData,
+                dataType: "json",
+                contentType:"application/x-www-form-urlencoded",
+                success : function(result){
+                    if (typeof(result)!=undefined && 0 == result.code) {
+                        var html = template('tpl', result);
+						document.getElementById('comment_list').innerHTML = html;
+                    }
+                    else{
+                        alert("发表失败.");
+                    }
+                }
+            });
+		}
+		</script>
+
+	</body>
+</html>

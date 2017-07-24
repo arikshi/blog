@@ -1,0 +1,66 @@
+﻿.fdad {
+    width: 336px;
+    height: 280px;
+    background-color: #FFF;
+    position: fixed;
+    top: 80px;
+    right: 25px;
+  
+    z-index: 999999999999;
+      /*opacity: .7;
+    -moz-animation: flipInX 1.5s 2s ease both;
+    -webkit-animation: flipInX 1.5s 2s ease both;*/
+          
+}
+.fdr {
+    float: right;
+    font-family: Arial;
+    font-size: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+ color:#444;
+    cursor: pointer;
+    font-size:18px;
+}
+
+@-webkit-keyframes flipInX {
+    0% {
+        -webkit-transform: perspective(400px) rotateX(90deg);
+        opacity: 0;
+    }
+
+    40% {
+        -webkit-transform: perspective(400px) rotateX(-10deg);
+    }
+
+    70% {
+        -webkit-transform: perspective(400px) rotateX(10deg);
+    }
+
+    100% {
+        -webkit-transform: perspective(400px) rotateX(0deg);
+        opacity: .7;
+    }
+}
+
+@-moz-keyframes flipInX {
+    0% {
+        -moz-transform: perspective(400px) rotateX(90deg);
+        opacity: 0;
+    }
+
+    40% {
+        -moz-transform: perspective(400px) rotateX(-10deg);
+    }
+
+    70% {
+        -moz-transform: perspective(400px) rotateX(10deg);
+    }
+
+    100% {
+        -moz-transform: perspective(400px) rotateX(0deg);
+        opacity: .7;
+    }
+}
+
+     
